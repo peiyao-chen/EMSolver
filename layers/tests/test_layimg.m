@@ -7,7 +7,8 @@ function test_layimg
 %
 
 % Angular frequency
-freq = lay.freq = 1e11;
+freq = 1e11;
+lay.freq = 1e11;
 
 % Source dipole
 l = [ 2e-7; 5e-7; 1e-7 ];
@@ -20,7 +21,7 @@ lay.z3   = 3e-3;
 lay.z2   = 1e-3;
 lay.eps3 = eps0;
 lay.eps2 = eps0;
-lay.eps1 = eps0-j*Inf;
+lay.eps1 = eps0-1i*Inf;
 
 gi = mkimages(lay);
 
@@ -29,10 +30,10 @@ ef1 = dfield_dcim(lay,gi,robs,rsrc,l);
 [ dx, dy, dz ] = uncat(1, rsrc-robs);
 ll = sqrt(dot(l, l, 1)); % length of the dipole
 [ lx, ly, lz ] = uncat(1, l./ll); % dipole direction vector
-[ ex ey ez ] = dfield(freq,eps0,mu0,dx,dy,dz,lx,ly,lz,ll);
+[ ex, ey, ez ] = dfield(freq,eps0,mu0,dx,dy,dz,lx,ly,lz,ll);
 dzi = -rsrc(3)-robs(3)+2*lay.z2;  % image position
 [ lxi, lyi ] = deal(-lx, -ly); % flipped in transverse direction
-[ exi eyi ezi ] = dfield(freq,eps0,mu0,dx,dy,dzi,lxi,lyi,lz,ll);
+[ exi, eyi, ezi ] = dfield(freq,eps0,mu0,dx,dy,dzi,lxi,lyi,lz,ll);
 ef2 = [ ex+exi; ey+eyi; ez+ezi ];
 
 assertEquals(ef2, ef1, 1e-10);
@@ -40,7 +41,7 @@ assertEquals(ef2, ef1, 1e-10);
 % Second case - perfectly conducting plane on top
 lay.z3   = 3e-3;
 lay.z2   = 1e-3;
-lay.eps3 = eps0-j*Inf;
+lay.eps3 = eps0-1i*Inf;
 lay.eps2 = eps0;
 lay.eps1 = eps0;
 
@@ -51,10 +52,10 @@ ef1 = dfield_dcim(lay,gi,robs,rsrc,l);
 [ dx, dy, dz ] = uncat(1, rsrc-robs);
 ll = sqrt(dot(l, l, 1)); % length of the dipole
 [ lx, ly, lz ] = uncat(1, l./ll); % dipole direction vector
-[ ex ey ez ] = dfield(freq,eps0,mu0,dx,dy,dz,lx,ly,lz,ll);
+[ ex, ey, ez ] = dfield(freq,eps0,mu0,dx,dy,dz,lx,ly,lz,ll);
 dzi = -rsrc(3)-robs(3)+2*lay.z3;  % image position
 [ lxi, lyi ] = deal(-lx, -ly); % flipped in transverse direction
-[ exi eyi ezi ] = dfield(freq,eps0,mu0,dx,dy,dzi,lxi,lyi,lz,ll);
+[ exi, eyi, ezi ] = dfield(freq,eps0,mu0,dx,dy,dzi,lxi,lyi,lz,ll);
 ef2 = [ ex+exi; ey+eyi; ez+ezi ];
 
 assertEquals(ef2, ef1, 1e-10);

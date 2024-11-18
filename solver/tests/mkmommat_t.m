@@ -15,14 +15,14 @@ nt = mesh.edge_tris(ne,:);
 
 % Quadrature points
 qo = mqo; % Order of the quadrature
-if qo < 2,
+if qo < 2
 	nq = 1;
 	qa = [ 1/3 1/3 ];
 	qw = 0.5;
 else
 	nq = qo.*qo;
 	[qa,qw]=simplexquad(qo,2);
-endif
+end
 
 % This gives us barycentirc coordinates, now qa is nq-by-3 array.
 qa=[ qa 1-sum(qa,2) ];
@@ -31,12 +31,12 @@ tsgn = [ 1 -1 ];
 
 result = zeros(M,N);
 
-for im=1:M,
-	for in=1:N,
+for im=1:M
+	for in=1:N
 		m=me(im);
 		n=ne(in);
-		for imt=1:2,
-			for int=1:2,
+		for imt=1:2
+			for int=1:2
 				% Indices of the source and testing triangles
 				mtt = mt(im,imt);
 				ntt = nt(in,int);
@@ -46,7 +46,7 @@ for im=1:M,
 				rz = mesh.z(mesh.tri(ntt, :));
 				r = cat(3, rx, ry, rz);
 				tprod = 0;
-				for iq=1:nq,
+				for iq=1:nq
 					% Observation point
 					ox = sum(mesh.x(mesh.tri(mtt,:)).*qa(iq,:), 2);
 					oy = sum(mesh.y(mesh.tri(mtt,:)).*qa(iq,:), 2);

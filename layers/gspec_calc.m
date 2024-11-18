@@ -46,7 +46,7 @@ lay_eps = repmat(cat(ndims(kz), lay.eps1, lay.eps2, lay.eps3), size(kr));
 % Auxiliary values to make the formulas shorter
 kr2 = kr.*kr;
 d2 = lay.z3 - lay.z2;
-[ kz1 kz2 kz3 ] = uncat(ndims(kz), kz);
+[ kz1, kz2, kz3 ] = uncat(ndims(kz), kz);
 le1 = lay.eps1;
 le2 = lay.eps2;
 le3 = lay.eps3;
@@ -55,8 +55,8 @@ le3 = lay.eps3;
 % 3-by-npt arrays
 Ze = kz./(freq*lay_eps);
 Zh = freq*mu0./kz;
-[ Z1e Z2e Z3e ] = uncat(ndims(Ze), Ze);
-[ Z1h Z2h Z3h ] = uncat(ndims(Zh), Zh);
+[ Z1e, Z2e, Z3e ] = uncat(ndims(Ze), Ze);
+[ Z1h, Z2h, Z3h ] = uncat(ndims(Zh), Zh);
 
 % Reflection coefficients, 1-by-npt arrays
 Gle = (Z1e-Z2e)./(Z1e+Z2e);
@@ -71,26 +71,30 @@ dGlh = (kz2.*kz2 - kz1.*kz1)./(kz1.*kz2.*(kz2+kz1).^2);
 dGrh = (kz2.*kz2 - kz3.*kz3)./(kz3.*kz2.*(kz2+kz3).^2);
 
 % Perfect electric conductor at the bottom?
-if isinf(lay.eps1),
-	Gle = Glh = -1*ones(size(Gle));
-	dGle = dGlh = zeros(size(dGle));
+if isinf(lay.eps1)
+	Gle = -1*ones(size(Gle));
+    Glh = -1*ones(size(Gle));
+	dGle = zeros(size(dGle));
+    dGlh = zeros(size(dGle));
 end
 
 % Perfect electric conductor at the top?
-if isinf(lay.eps3),
-	Gre = Grh = -1*ones(size(Gre));
-	dGre = dGrh = zeros(size(dGre));
+if isinf(lay.eps3)
+	Gre = -1*ones(size(Gre));
+    Grh = -1*ones(size(Gre));
+	dGre = zeros(size(dGre));
+    dGrh = zeros(size(dGre));
 end
 
 % Derivatives of the characteristic impedances with respect to kr2
 dZe = -1./(2*kz.*(freq*lay_eps));
 dZh = freq*mu0./(2*kz.*kz.*kz);
-[ dZ1e dZ2e dZ3e ] = uncat(ndims(dZe), dZe);
-[ dZ1h dZ2h Zd3h ] = uncat(ndims(dZh), dZh);
+[ ~, dZ2e, ~ ] = uncat(ndims(dZe), dZe);
+[ ~, dZ2h, ~ ] = uncat(ndims(dZh), dZh);
 
 % Auxiliary values - common multipliers used when calculating
 % transmission line quantities.
-t2 = exp(-2*j*kz2*d2);
+t2 = exp(-2*1i*kz2*d2);
 me = 1./(1-Gle.*Gre.*t2)/2;
 mh = 1./(1-Glh.*Grh.*t2)/2;
 
@@ -145,7 +149,7 @@ iie4 = -iie3;
 iih4 = -iih3;
 
 % Derivatives of the common multipliers used in tline quantities
-dt2 = j*d2*exp(-2*j*kz2*d2)./kz2;
+dt2 = 1i*d2*exp(-2*1i*kz2*d2)./kz2;
 dme = (dGle.*Gre.*t2+Gle.*(dGre.*t2+Gre.*dt2))./(1-Gle.*Gre.*t2).^2/2;
 dmh = (dGlh.*Grh.*t2+Glh.*(dGrh.*t2+Grh.*dt2))./(1-Glh.*Grh.*t2).^2/2;
 
@@ -242,10 +246,10 @@ gs.Kf2 = (vih2-vie2)./kr2_fixed;
 gs.Kf3 = (vih3-vie3)./kr2_fixed;
 gs.Kf4 = (vih4-vie4)./kr2_fixed;
 
-gs.Cf1 = j*freq*mu0*(vvh1-vve1)./kr2_fixed;
-gs.Cf2 = j*freq*mu0*(vvh2-vve2)./kr2_fixed;
-gs.Cf3 = j*freq*mu0*(vvh3-vve3)./kr2_fixed;
-gs.Cf4 = j*freq*mu0*(vvh4-vve4)./kr2_fixed;
+gs.Cf1 = 1i*freq*mu0*(vvh1-vve1)./kr2_fixed;
+gs.Cf2 = 1i*freq*mu0*(vvh2-vve2)./kr2_fixed;
+gs.Cf3 = 1i*freq*mu0*(vvh3-vve3)./kr2_fixed;
+gs.Cf4 = 1i*freq*mu0*(vvh4-vve4)./kr2_fixed;
 
 % The formulas above where kr2 stays in the denominator do not work
 % properly in the case of kr=0. This case needs to be handled, so instead
@@ -267,10 +271,10 @@ Kf2_kr0 = (dvih2-dvie2);
 Kf3_kr0 = (dvih3-dvie3);
 Kf4_kr0 = (dvih4-dvie4);
 
-Cf1_kr0 = j*freq*mu0*(dvvh1-dvve1);
-Cf2_kr0 = j*freq*mu0*(dvvh2-dvve2);
-Cf3_kr0 = j*freq*mu0*(dvvh3-dvve3);
-Cf4_kr0 = j*freq*mu0*(dvvh4-dvve4);
+Cf1_kr0 = 1i*freq*mu0*(dvvh1-dvve1);
+Cf2_kr0 = 1i*freq*mu0*(dvvh2-dvve2);
+Cf3_kr0 = 1i*freq*mu0*(dvvh3-dvve3);
+Cf4_kr0 = 1i*freq*mu0*(dvvh4-dvve4);
 
 gs.Gzu1(kr2_zidx) = Gzu1_kr0(kr2_zidx);
 gs.Gzu2(kr2_zidx) = Gzu2_kr0(kr2_zidx);

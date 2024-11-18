@@ -33,7 +33,7 @@ lay_mu = [ mu0 mu0 mu0 ];
 lay_z = [ lay.z2-1 lay.z2 lay.z3 lay.z3+1 ];
 
 % Perfect electric conductor at the bottom?
-if isinf(lay.eps1),
+if isinf(lay.eps1)
 	bottom_gnd = 1;
 	lay_eps(1) = [];
 	lay_mu(1) = [];
@@ -42,7 +42,7 @@ if isinf(lay.eps1),
 end
 
 % Perfect electric conductor at the top?
-if isinf(lay.eps3),
+if isinf(lay.eps3)
 	top_gnd = 1;
 	lay_eps(end) = [];
 	lay_mu(end) = [];
@@ -53,20 +53,25 @@ end
 % Number of kr points
 npt = length(kr);
 
-Gls1_e = GgrN_e = Gls1_h = GgrN_h = 0;
+Gls1_e = 0;
+GgrN_e = 0;
+Gls1_h = 0;
+GgrN_h = 0;
 
 % PEC : Ze = 0; Zh = 0, corresponds to short termination.
-if bottom_gnd,
-	Gls1_e = Gls1_h = -1;
+if bottom_gnd
+	Gls1_e = -1;
+    Gls1_h = -1;
 end
 
-if top_gnd,
-	GgrN_e = GgrN_h = -1;
+if top_gnd
+	GgrN_e = -1;
+    GgrN_h = -1;
 end
 
 % This is common for both TM and TE tlines
 tl_z = repmat(lay_z, npt, 1);
-tl_k = kz*j; % Notice j
+tl_k = kz*1i; % Notice j
 
 % Setup tlines associated with TM fields ('e' tlines)
 Z0 = kz./repmat(freq*lay_eps, npt, 1);

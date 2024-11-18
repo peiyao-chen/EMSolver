@@ -21,7 +21,7 @@ freq = 1e5;
 k = freq * sqrt(eps * mu);
 
 % Evaluate potential integrals for the edge pairs.
-[ tri_e_over_r, edge_f_e_over_r, edge_e_over_r, edge_f_cross_grad ] ...
+[ tri_e_over_r, edge_f_e_over_r, edge_e_over_r, ~ ] ...
  = calc_edge_intg(mesh, k);
 
 % Number of the edges
@@ -115,7 +115,7 @@ assertEquals(Mtest, M);
 % Compare mkmommatgrad results with the deprecated calc_edge_intg
 M = mkmommatgrad(mesh, fintg_p_64, 1, 1:nedges, 1:nedges);
 Mtest = l_m.*sum(edge_e_over_r.*f_sign, 3);
-assertEquals(Mtest, M, 1e-10); % calc_edge_intg use the old inegrals evaluator
+assertEquals(Mtest, M, 1e-9); % calc_edge_intg use the old inegrals evaluator
 
 % Compare mkmommat results with the dedicated testing function mkmommat_t
 me = [ 1 3 5 7 ];

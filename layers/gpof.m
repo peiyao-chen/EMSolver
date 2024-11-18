@@ -34,12 +34,12 @@ while  ((sigmac/sigmamax)>1e-3)&&(i<nd)
    M=i-1;
 end
 
-invD=diag(1./diag(D)(1:M));
+invD=diag(1./diag(D(1:M)));
 
 vp=v(1:n,1:M);
 up=u(1:m,1:M);
 
-Z=invD*up'*Y2*vp;
+Z=invD.*(up')*Y2*vp;
 
 z=eig(Z);
 

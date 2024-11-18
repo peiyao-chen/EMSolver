@@ -23,7 +23,7 @@ if isinf(lay.eps1),
 end
 
 % Perfect electric conductor at the top?
-if isinf(lay.eps3),
+if isinf(lay.eps3)
 	lay_eps(end) = [];
 end
 
@@ -41,8 +41,10 @@ lay_k = freq * sqrt(lay_eps .* mu0);
 [ iv0h, iv1h, iv2h, iv3h, iv4h ] = fact_iv(tlh,iobs);
 
 % Intermediate values
-mu_j = mu_i = mu0;
-eps_j = eps_i = lay_eps(iobs);
+mu_j = mu0;
+mu_i = mu0;
+eps_j = lay_eps(iobs);
+eps_i = lay_eps(iobs);
 ki = lay_k(iobs);
 kr2 = kr.*kr;
 
@@ -130,10 +132,10 @@ assertEquals(Kf2_test, gs.Kf2);
 assertEquals(Kf3_test, gs.Kf3);
 assertEquals(Kf4_test, gs.Kf4);
 
-Cf1_test = j*freq*mu_j*(vv1h-vv1e)./kr2;
-Cf2_test = j*freq*mu_j*(vv2h-vv2e)./kr2;
-Cf3_test = j*freq*mu_j*(vv3h-vv3e)./kr2;
-Cf4_test = j*freq*mu_j*(vv4h-vv4e)./kr2;
+Cf1_test = 1i*freq*mu_j*(vv1h-vv1e)./kr2;
+Cf2_test = 1i*freq*mu_j*(vv2h-vv2e)./kr2;
+Cf3_test = 1i*freq*mu_j*(vv3h-vv3e)./kr2;
+Cf4_test = 1i*freq*mu_j*(vv4h-vv4e)./kr2;
 
 assertEquals(0, vv0h-vv0e); % Make sure these terms cancel out.
 assertEquals(Cf1_test, gs.Cf1);

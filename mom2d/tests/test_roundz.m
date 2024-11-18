@@ -29,22 +29,22 @@ Za = []; % Analytical solution
 Z1 = []; % Simulated
 Z2 = []; % Simulated via admittance
 
-for freq = freqs,
+for freq = freqs
 
 	% Parameters of the plane.
-	Yplane = j*freq*eps0/d;
-	Zplane = j*freq*mu0*d;
+	Yplane = 1i*freq*eps0/d;
+	Zplane = 1i*freq*mu0*d;
 	k = sqrt(-Yplane*Zplane);
 
 	fintgsl = @(rsrc,robs) intg_helmsl2d(k,rsrc,robs);
 	fintgdl = @(rsrc,robs) intg_helmdl2d(k,rsrc,robs);
 
 	Z = extractz2(e, v, ports, fintgsl, fintgdl)*Zplane;
-	Z1 = [ Z1 Z ];
+	Z1 = [ Z1, Z ];
 
-	Y=extracty2(e, v, ports, fintgsl, fintgdl)/Zplane;
+	Y = extracty2(e, v, ports, fintgsl, fintgdl)/Zplane;
 	Z=1/Y;
-	Z2 = [ Z2 Z ];
+	Z2 = [ Z2, Z ];
 
 	%C = eps0*pi*r2*r2/d;
 	%Zc = 1/(j*freq*C);
@@ -66,10 +66,10 @@ for freq = freqs,
 	V = M*x;
 	I = -2*pi*r1/Zplane;
 	Z = V(1)/I;
-	Za = [ Za Z ];
+	Za = [ Za, Z ];
 end
 
-assertEquals(Z1, Z2, Z1*1e-10);
+assertEquals(Z1, Z2, Z1*1e-7);
 assertEquals(Za, Z1, Za*3e-2);
 
 

@@ -36,7 +36,7 @@ assertEquals(gs.Kf3*kr, gq.Kf3.a, gs.Kf3*kr*reltol);
 assertEquals(gs.Kf4*kr, gq.Kf4.a, gs.Kf4*kr*reltol);
 
 % second test - pec at the bottom
-lay.eps1 = eps0-j*Inf;
+lay.eps1 = eps0-1i*Inf;
 lay.eps2 = eps0*2;
 lay.eps3 = eps0*2;
 lay.z2 = 0.1;
@@ -86,7 +86,7 @@ assertEquals(gs.Kf3*kr, gq.Kf3.a, gs.Kf3*kr*reltol);
 assertEquals(gs.Kf4*kr, gq.Kf4.a, gs.Kf4*kr*reltol);
 
 % pec at the top
-lay.eps1 = eps0-j*Inf;
+lay.eps1 = eps0-1i*Inf;
 lay.eps2 = eps0*2;
 lay.eps3 = eps0*2;
 lay.z2 = 0.1;

@@ -61,7 +61,7 @@ inva(anz) = 1./a(anz);
 F2 = inva.*(atan(t1.*inva)-atan(t0.*inva)); % works for a!=0
 F2z = srcl./(b.*b-srcl.*srcl./4); % works for a=0
 F2(anz == 0) = F2z(anz == 0);
-F3 = 0.5*(log(t1.*t1.+a.*a)-log(t0.*t0.+a.*a));
+F3 = 0.5*(log(t1.*t1 + a.*a)-log(t0.*t0 + a.*a));
 
 Ix = (obsc(:,1)-srcc(:,1) - b.*cos(th)).*F2 - cos(th).*F3;
 Iy = (obsc(:,2)-srcc(:,2) - b.*sin(th)).*F2 - sin(th).*F3;

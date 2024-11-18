@@ -60,14 +60,14 @@ end
 
 % Quadrature points
 qo = mqo; % Order of the quadrature
-if qo < 2,
+if qo < 2
 	nq = 1;
 	qa = [ 1/3 1/3 ];
 	qw = 0.5;
 else
 	nq = qo.*qo;
 	[qa,qw]=simplexquad(qo,2);
-endif
+end
 
 % This gives us barycentirc coordinates, now qa is nq-by-3 array.
 qa=[ qa 1-sum(qa,2) ];

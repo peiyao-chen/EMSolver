@@ -82,29 +82,30 @@ s2_vih_minus_vie = eval_sommerf(lay, 2, vih_minus_vie_kr, rho);
 %
 Gxx = -(s0_vih+1/2*(cos(2*phi)*s2_vih_minus_vie-s0_vih_minus_vie_kr2));
 Gyy = -(s0_vih-1/2*(cos(2*phi)*s2_vih_minus_vie+s0_vih_minus_vie_kr2));
-Gxy = Gyx = -1/2*sin(2*phi)*s2_vih_minus_vie;
+Gxy = -1/2*sin(2*phi)*s2_vih_minus_vie;
+Gyx = -1/2*sin(2*phi)*s2_vih_minus_vie;
 
 iie = @(kr,kz) calc_ii(lay_tlines_e(lay,kr,kz),zobs,iobs,zsrc,jsrc);
 iie_kr2 = @(kr,kz) iie(kr,kz).*kr.*kr;
 
 s1_iie = eval_sommerf(lay, 1, iie_kr2, rho);
-Gzx = -cos(phi)*s1_iie/(j*freq*epsi);
-Gzy = -sin(phi)*s1_iie/(j*freq*epsi);
+Gzx = -cos(phi)*s1_iie/(1i*freq*epsi);
+Gzy = -sin(phi)*s1_iie/(1i*freq*epsi);
 
 ive = @(kr,kz) calc_iv(lay_tlines_e(lay,kr,kz),zobs,iobs,zsrc,jsrc);
 ive_kr3 = @(kr,kz) ive(kr,kz).*kr.*kr.*kr;
 
 s0_ive_kr2 = eval_sommerf(lay, 0, ive_kr3, rho);
-Gzz = 1/(j*freq*epsj)*1/(j*freq*epsi)*s0_ive_kr2;
+Gzz = 1/(1i*freq*epsj)*1/(1i*freq*epsi)*s0_ive_kr2;
 
 vve = @(kr,kz) calc_vv(lay_tlines_e(lay,kr,kz),zobs,iobs,zsrc,jsrc);
 vve_kr2 = @(kr,kz) vve(kr,kz).*kr.*kr;
 
 s1_vve = eval_sommerf(lay, 1, vve_kr2, rho);
-Gxz = -cos(phi)*s1_vve/(j*freq*epsj);
-Gyz = -sin(phi)*s1_vve/(j*freq*epsj);
+Gxz = -cos(phi)*s1_vve/(1i*freq*epsj);
+Gyz = -sin(phi)*s1_vve/(1i*freq*epsj);
 
-[ lx ly lz ] = uncat(1,l);
+[ lx, ly, lz ] = uncat(1,l);
 
 efj = zeros(3,1);
 efj(1) = Gxx*lx+Gxy*ly+Gxz*lz;
@@ -153,16 +154,16 @@ ive_kr2 = @(kr,kz) ive(kr,kz).*kr.*kr;
 
 s1_ive = eval_sommerf(lay, 1, ive_kr2, rho);
 
-Fzx = sin(phi)*s1_ive/(j*freq*epsi);
-Fzy = -cos(phi)*s1_ive/(j*freq*epsi);
+Fzx = sin(phi)*s1_ive/(1i*freq*epsi);
+Fzy = -cos(phi)*s1_ive/(1i*freq*epsi);
 
 vih = @(kr,kz) calc_vi(lay_tlines_h(lay,kr,kz),zobs,iobs,zsrc,jsrc);
 vih_kr2 = @(kr,kz) vih(kr,kz).*kr.*kr;
 
 s1_vih = eval_sommerf(lay, 1, vih_kr2, rho);
 
-Fxz = -sin(phi)*s1_vih/(j*freq*mu0);
-Fyz = cos(phi)*s1_vih/(j*freq*mu0);
+Fxz = -sin(phi)*s1_vih/(1i*freq*mu0);
+Fyz = cos(phi)*s1_vih/(1i*freq*mu0);
 
 efm = zeros(3,1);
 efm(1) = Fxx*lx+Fxy*ly+Fxz*lz;

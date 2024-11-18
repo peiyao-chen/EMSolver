@@ -83,10 +83,12 @@ tl.Gls1 = Gls1;
 tl.GgrN = GgrN;
 
 % Number of tline chains
-M=size(Z0)(1);
+% M=size(Z0)(1);
 
 % Number of tlines
-N=size(Z0)(2);
+% N=size(Z0)(2);
+
+[M, N] = size(Z0);
 
 % Characteristic admittances.
 tl.Y0=1./Z0;
@@ -107,7 +109,7 @@ tl.Ggr=zeros(M,N);
 % The first recurrent procedure - determine Gls
 % Gls(1) is supplied by user based on the termination.
 tl.Gls(:,1)=Gls1;
-for n=1:N-1,
+for n=1:N-1
 	% This is G(n,n+1)
 	G_=(Z0(:,n)-Z0(:,n+1))./(Z0(:,n)+Z0(:,n+1));
 	tl.Gls(:,n+1)=(G_+tl.Gls(:,n).*tl.t(:,n))./(1+G_.*tl.Gls(:,n).*tl.t(:,n));
@@ -116,7 +118,7 @@ end
 % The second recurrent procedure - determine Ggr
 % Ggr(N) is supplied by user based on the termination.
 tl.Ggr(:,N)=GgrN;
-for n=N:-1:2,
+for n=N:-1:2
 	% This is G(n,n-1)
 	G_=(Z0(:,n)-Z0(:,n-1))./(Z0(:,n)+Z0(:,n-1));
 	tl.Ggr(:,n-1)=(G_+tl.Ggr(:,n).*tl.t(:,n))./(1+G_.*tl.Ggr(:,n).*tl.t(:,n));

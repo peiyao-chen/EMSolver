@@ -20,7 +20,7 @@ if size(kr,2)>1 % If kr has more that one dimension
 else
 	lk2r = repmat(shiftdim(lk2, -1), length(kr), 1);
 	kr2r = repmat(kr2, 1, length(lay_k));
-endif
+end
 
 kz = sqrt(lk2r - kr2r);
 

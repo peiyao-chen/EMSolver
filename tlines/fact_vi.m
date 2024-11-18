@@ -39,7 +39,8 @@ m14 = 1./(1-tl.Gls(:,n).*tl.Ggr(:,n).*tl.t(:,n));
 % Factors corresponding to the reflected rays
 f1 = tl.Ggr(:,n).*m14.*m04;
 f2 = tl.Gls(:,n).*m14.*m04;
-f3 = f4 = tl.Gls(:,n).*tl.Ggr(:,n).*m14.*m04;
+f3 = tl.Gls(:,n).*tl.Ggr(:,n).*m14.*m04;
+f4 = tl.Gls(:,n).*tl.Ggr(:,n).*m14.*m04;
 
 % Factor corresponding to the direct ray
 f0 = m04;

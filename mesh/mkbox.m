@@ -52,9 +52,9 @@ function [tri, x, y, z, c1, c2] = mkbox(sx, sy, sz, nx, ny, nz, panels)
 [ py2_x, py2_y, py2_z ] = move(py2_x, py2_y, py2_z, 0, -sy/2, 0);
 
 % Default value of the panels optional parameter
-if ~exist('panels'),
+if ~exist('panels')
 	panels = 1+2+4+8+16+32;
-endif
+end
 
 % Merge all together
 tri = [];
@@ -62,47 +62,47 @@ x = [];
 y = [];
 z = [];
 
-if rem(panels,64) >= 32, % Testing for the 32 flag
+if rem(panels,64) >= 32 % Testing for the 32 flag
 	tri = [ tri; (pz1_tri + length(x)) ];
 	x = [ x pz1_x ];
 	y = [ y pz1_y ];
 	z = [ z pz1_z ];
-endif
+end
 
-if rem(panels,32) >= 16, % Testing for the 16 flag
+if rem(panels,32) >= 16 % Testing for the 16 flag
 	tri = [ tri; (pz2_tri + length(x)) ];
 	x = [ x pz2_x ];
 	y = [ y pz2_y ];
 	z = [ z pz2_z ];
-endif
+end
 
-if rem(panels,4) >= 2, % Testing for the 2 flag
+if rem(panels,4) >= 2 % Testing for the 2 flag
 	tri = [ tri; (px1_tri + length(x)) ];
 	x = [ x px1_x ];
 	y = [ y px1_y ];
 	z = [ z px1_z ];
-endif
+end
 
-if rem(panels,2) >= 1, % Testing for the 1 flag
+if rem(panels,2) >= 1 % Testing for the 1 flag
 	tri = [ tri; (px2_tri + length(x)) ];
 	x = [ x px2_x ];
 	y = [ y px2_y ];
 	z = [ z px2_z ];
-endif
+end
 
-if rem(panels,16) >= 8, % Testing for the 8 flag
+if rem(panels,16) >= 8 % Testing for the 8 flag
 	tri = [ tri; (py1_tri + length(x)) ];
 	x = [ x py1_x ];
 	y = [ y py1_y ];
 	z = [ z py1_z ];
-endif
+end
 
-if rem(panels,8) >= 4, % Testing for the 4 flag
+if rem(panels,8) >= 4 % Testing for the 4 flag
 	tri = [ tri; (py2_tri + length(x)) ];
 	x = [ x py2_x ];
 	y = [ y py2_y ];
 	z = [ z py2_z ];
-endif
+end
 
 % Remove duplicated vertices
 [ tri, x, y, z ] = rmdups(tri, x, y, z);
