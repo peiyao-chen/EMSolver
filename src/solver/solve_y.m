@@ -12,7 +12,7 @@ function Y = solve_y(mesh, contacts, opts)
 
 nports = length(contacts);
 Y = [];
-for ip=1:nports,
+for ip=1:nports
     potentials = zeros(nports,1);
     potentials(ip) = 1;
     % Find currents for the given contact potentials
@@ -22,5 +22,5 @@ for ip=1:nports,
     % positive terminal the positive current direction is into the
     % terminal; while the solver returns the currents flowing out of
     % the contacts.
-    Y = [ Y -currents ];
+    Y = [ Y, -currents ];
 end

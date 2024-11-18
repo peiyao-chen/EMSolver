@@ -22,11 +22,11 @@ z1 = z1 + (t+h)/2;
 [ tri2, x2, y2, z2 ] = mkbox(l, u, t, nl, nu, ng);
 z2 = z2 - (t+h)/2;
 
-[ tri x y z ] = joinmeshes({ tri1 tri2 }, { x1 x2 }, { y1 y2 }, { z1 z2 });
+[ tri, x, y, z ] = joinmeshes({ tri1 tri2 }, { x1 x2 }, { y1 y2 }, { z1 z2 });
 
 mesh = init_mesh(tri, x, y, z);
 
-ntris = size(tri,1)
+ntris = size(tri,1);
 
 % Contact faces
 c1 = find_faces( mesh, -l/2, 0,  (t+h)/2, -1, 0, 0, max(w,t)*0.8 );
@@ -35,15 +35,14 @@ c3 = find_faces( mesh,  l/2, 0,  (t+h)/2,  1, 0, 0, max(w,t)*0.8 );
 c4 = find_faces( mesh,  l/2, 0, -(t+h)/2,  1, 0, 0,  max(w,t)*0.8 );
 contacts = { c1 c2 c3 c4 };
 
-%% trimesh(tri, x, y, z);
-%% xlabel('X');
-%% ylabel('Y');
-%% zlabel('Z'); 
-
-%% rlim = [ -l/2 l/2 ];
-%% xlim(rlim);
-%% ylim(rlim);
-%% zlim(rlim);
+trimesh(tri, x, y, z);
+xlabel('X');
+ylabel('Y');
+zlabel('Z'); 
+rlim = [ -l/2 l/2 ];
+xlim(rlim);
+ylim(rlim);
+zlim(rlim);
 
 % Frequency samples
 freqs = 2*pi*linspace(0,2e1,21);
@@ -53,7 +52,7 @@ freqs(1) = 2*pi*1.0e6;
 Yf = [];
 
 % Run simulations for all the frequencies
-for freq=freqs,
+for freq = freqs
 
     step = find(freqs == freq);
     steps = length(freqs);

@@ -28,14 +28,14 @@ freq = opts.freq;
 eps = opts.eps;
 mu = opts.mu;
 
-if soptget(opts, 'hf', 0),
+if soptget(opts, 'hf', 0)
     conductivity = 1e99;
 else
     conductivity = opts.conductivity;
 end
 
 % Permittivity of the conductors
-eps_c = (eps - j*conductivity/freq);
+eps_c = (eps - 1i*conductivity/freq);
 
 % Loop and star transform matrices and their transposes.
 [ IL, IS ] = mkloopstar(mesh);
@@ -86,7 +86,7 @@ alle = 1:nedges;
 
 Z1 = -mkmommat(mesh, opts.fintg_fp_0, opts.mqo0, alle, alle)*j*freq*mu/(4*pi);
 
-if soptget(opts, 'hf', 0),
+if soptget(opts, 'hf', 0)
     MJ = Tt*Z1*T;
 else
     Z2 = -mkmommatgrad(mesh, opts.fintg_p_0, opts.mqo0, alle, alle)/(4*pi*j*freq*eps_c);
@@ -105,14 +105,14 @@ else
 end
 
 % The correction term, which only exists in the case of layered media.
-if isfield(opts, 'fintg_c'),
+if isfield(opts, 'fintg_c')
     fprod = @(f, g) 2*g(:,:,:,:,:,3).*f(:,:,:,:,:,3) ...
          .*repmat([ 1 -1 ], [ size(g,1), 1, size(g,3), size(g,4), size(g, 5) ]);
     MJC = mkmommat(mesh, opts.fintg_c, opts.mqo0, 1:nedges, 1:nedges, fprod);
     MJ = MJ + Tt*MJC*T;
 end
 
-if ~soptget(opts, 'hf', 0),
+if ~soptget(opts, 'hf', 0)
 
     ehtst = mkehtstmat(mesh);
 
@@ -123,7 +123,7 @@ if ~soptget(opts, 'hf', 0),
     JJ = zeros(nedges,nedges);
 
     % MFIE is solved separately for each conductor.
-    for i=1:length(mesh.shape_edges),
+    for i=1:length(mesh.shape_edges)
 	
 	% Edges which belong to the current shape
 	edges = mesh.shape_edges{i}(:);
@@ -197,7 +197,7 @@ z2 = zeros(ntris,nedges);
 zp = zeros(ntris * (0 == soptget(opts, 'mqs', 0)),nedges);
 
 % Lefthand side matrix
-if soptget(opts, 'hf', 0),
+if soptget(opts, 'hf', 0)
     M = [  MJ       z1    MP  ;   ... % J
            RJ       RR    RP  ;   ... % R
            z2       PR    PP  ];      % P

@@ -6,10 +6,10 @@ function v = soptget (options, optname, default)
 % is given, an empty matrix.
 %
 
-if (isfield (options, optname)),
+if (isfield (options, optname))
 	v = options.(optname);
-elseif (nargin > 2),
+elseif (nargin > 2)
 	v = default;
 else
     v = [];
-endif
+end

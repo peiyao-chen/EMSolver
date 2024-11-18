@@ -14,9 +14,9 @@ epsd = 4.05*eps0;  % dielectric
 epsr = epsd/eps0;
 
 % Disk capacitance!
-Ca = epsd * pi * max( rp - rh, 0 )^2 / h
-Cf = 2*eps0*rp*(log(rp/(2*h)) + 1.41*epsr + 1.77 + h/rp*( 0.268*epsr + 1.65 ))
-Cp = Ca + Cf
+Ca = epsd * pi * max( rp - rh, 0 )^2 / h;
+Cf = 2*eps0*rp*(log(rp/(2*h)) + 1.41*epsr + 1.77 + h/rp*( 0.268*epsr + 1.65 ));
+Cp = Ca + Cf;
 
 % Meshing -- edges along the disk radius
 n = 8;
@@ -31,7 +31,7 @@ mres = @( s ) ceil( n*s/rp );
 [ t2, x2, y2, z2 ] = mkdisc( rg, mres( 2*pi*rp/2 ), mres( rg - rh ), rh );
 x2 = x2 - h;
 
-[ tri x y z ] = joinmeshes( { t1 t2 }, { x1 x2 }, { y1 y2 }, { z1 z2 } );
+[ tri, x, y, z ] = joinmeshes( { t1 t2 }, { x1 x2 }, { y1 y2 }, { z1 z2 } );
 
 mesh = init_mesh_triangles(tri, x, y, z);
 
@@ -45,8 +45,8 @@ conductors = { cnd1 cnd2 };
 epsout = epsd*ones( ntris, 1 );
 epsin  = epsd*ones( ntris, 1 );
 
-[ C2 P p q ] = extractc3(mesh, epsout, epsin, conductors);
-C = cperlen(C2)
+[ C2, P, p, q ] = extractc3(mesh, epsout, epsin, conductors);
+C = cperlen(C2);
 
 %% trimesh(tri, x, y, z, z*0);
 %% xlabel('X');

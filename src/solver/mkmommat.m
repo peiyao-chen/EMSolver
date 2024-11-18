@@ -25,20 +25,20 @@ N = length(ne);
 % If the matrix is big enough, it can not be computed at once because
 % of the memory limiations - it is computed by blocks instead.
 maxbls=200; % Maximum size of the block
-if M*N>maxbls*maxbls,
+if M*N>maxbls*maxbls
 
 	fprintf(1, 'Populating moment matrix');	
 	
 	% Pre-allocate the overall resulting matrix
 	v=zeros(M,N);
 	mend = 0;
-	while mend < M,
+	while mend < M
 		mstart = mend + 1;
 		mend = min(mend + maxbls, M);
 		bme = me(mstart:mend);
 
 		nend = 0;
-		while nend < N,
+		while nend < N
 			nstart = nend + 1;
 			nend = min(nend + maxbls, N);
 			bne = ne(nstart:nend);
